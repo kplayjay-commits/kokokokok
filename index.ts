@@ -1,48 +1,62 @@
-#!/usr/bin/env node
-import { add } from "@/src/commands/add"
-import { build } from "@/src/commands/build"
-import { diff } from "@/src/commands/diff"
-import { info } from "@/src/commands/info"
-import { init } from "@/src/commands/init"
-import { mcp } from "@/src/commands/mcp"
-import { migrate } from "@/src/commands/migrate"
-import { build as registryBuild } from "@/src/commands/registry/build"
-import { mcp as registryMcp } from "@/src/commands/registry/mcp"
-import { search } from "@/src/commands/search"
-import { view } from "@/src/commands/view"
-import { Command } from "commander"
+import { type Registry } from "shadcn/schema"
+import { z } from "zod"
 
-import packageJson from "../package.json"
+import { blocks } from "@/registry/registry-blocks"
+import { charts } from "@/registry/registry-charts"
+import { examples } from "@/registry/registry-examples"
+import { hooks } from "@/registry/registry-hooks"
+import { internal } from "@/registry/registry-internal"
+import { lib } from "@/registry/registry-lib"
+import { themes } from "@/registry/registry-themes"
+import { ui } from "@/registry/registry-ui"
 
-process.on("SIGINT", () => process.exit(0))
-process.on("SIGTERM", () => process.exit(0))
+export const registry = {
+  name: "shadcn/ui",
+  homepage: "https://ui.shadcn.com",
+  items: [
+    {
+      name: "index",
+      type: "registry:style",
+      dependencies: [
+        "tailwindcss-animate",
+        "class-variance-authority",
+        "lucide-react",
+      ],
+      registryDependencies: ["utils"],
+      tailwind: {
+        config: {
+          plugins: ['require("tailwindcss-animate")'],
+        },
+      },
+      cssVars: {},
+      files: [],
+    },
+    {
+      name: "style",
+      type: "registry:style",
+      dependencies: [
+        "tailwindcss-animate",
+        "class-variance-authority",
+        "lucide-react",
+      ],
+      registryDependencies: ["utils"],
+      tailwind: {
+        config: {
+          plugins: ['require("tailwindcss-animate")'],
+        },
+      },
+      cssVars: {},
+      files: [],
+    },
+    ...ui,
+    ...blocks,
+    ...charts,
+    ...lib,
+    ...hooks,
+    ...themes,
 
-async function main() {
-  const program = new Command()
-    .name("shadcn")
-    .description("add items from registries to your project")
-    .version(
-      packageJson.version || "1.0.0",
-      "-v, --version",
-      "display the version number"
-    )
-
-  program
-    .addCommand(init)
-    .addCommand(add)
-    .addCommand(diff)
-    .addCommand(view)
-    .addCommand(search)
-    .addCommand(migrate)
-    .addCommand(info)
-    .addCommand(build)
-    .addCommand(mcp)
-  // Registry commands
-  program.addCommand(registryBuild).addCommand(registryMcp)
-
-  program.parse()
-}
-
-main()
-
-export * from "./registry/api"
+    // Internal use only.
+    ...internal,
+    ...examples,
+  ],
+} satisfies Registry
