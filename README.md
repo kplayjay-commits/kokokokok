@@ -1,31 +1,43 @@
-# shadcn/ui monorepo template
+# shadcn
 
-This template is for creating a monorepo with shadcn/ui.
+A CLI for adding components to your project.
 
 ## Usage
 
-```bash
-pnpm dlx shadcn@latest init
-```
+Use the `init` command to initialize dependencies for a new project.
 
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+The `init` command installs dependencies, adds the `cn` util, configures `tailwind.config.js`, and CSS variables for the project.
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+npx shadcn init
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## add
 
-## Tailwind
+Use the `add` command to add components to your project.
 
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
+The `add` command adds a component to your project and installs all required dependencies.
 
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button"
+```bash
+npx shadcn add [component]
 ```
+
+### Example
+
+```bash
+npx shadcn add alert-dialog
+```
+
+You can also run the command without any arguments to view a list of all available components:
+
+```bash
+npx shadcn add
+```
+
+## Documentation
+
+Visit https://ui.shadcn.com/docs/cli to view the documentation.
+
+## License
+
+Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
