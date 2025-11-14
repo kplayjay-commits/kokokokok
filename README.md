@@ -1,17 +1,31 @@
-# shadcn/ui
+# shadcn/ui monorepo template
 
-A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code. **Use this to build your own component library**.
+This template is for creating a monorepo with shadcn/ui.
 
-![hero](apps/v4/public/opengraph-image.png)
+## Usage
 
-## Documentation
+```bash
+pnpm dlx shadcn@latest init
+```
 
-Visit http://ui.shadcn.com/docs to view the documentation.
+## Adding components
 
-## Contributing
+To add components to your app, run the following command at the root of your `web` app:
 
-Please read the [contributing guide](/CONTRIBUTING.md).
+```bash
+pnpm dlx shadcn@latest add button -c apps/web
+```
 
-## License
+This will place the ui components in the `packages/ui/src/components` directory.
 
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+## Tailwind
+
+Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
+
+## Using components
+
+To use the components in your app, import them from the `ui` package.
+
+```tsx
+import { Button } from "@workspace/ui/components/button"
+```
