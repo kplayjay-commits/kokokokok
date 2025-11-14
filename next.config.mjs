@@ -1,14 +1,14 @@
-import { createContentlayerPlugin } from "next-contentlayer2"
+import { createMDX } from "fumadocs-mdx/next"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    outputFileTracingIncludes: {
-      "/blocks/*": ["./registry/**/*"],
-    },
+  devIndicators: false,
+  typescript: {
+    ignoreBuildErrors: true,
   },
-  reactStrictMode: true,
-  swcMinify: true,
+  outputFileTracingIncludes: {
+    "/*": ["./registry/**/*"],
+  },
   images: {
     remotePatterns: [
       {
@@ -19,24 +19,21 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "avatar.vercel.sh",
+      },
     ],
+  },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
   },
   redirects() {
     return [
       {
         source: "/components",
-        destination: "/docs/components/accordion",
+        destination: "/docs/components",
         permanent: true,
-      },
-      {
-        source: "/docs/components",
-        destination: "/docs/components/accordion",
-        permanent: true,
-      },
-      {
-        source: "/examples",
-        destination: "/examples/mail",
-        permanent: false,
       },
       {
         source: "/docs/primitives/:path*",
@@ -49,16 +46,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/docs/forms",
-        destination: "/docs/components/form",
-        permanent: false,
-      },
-      {
-        source: "/docs/forms/react-hook-form",
-        destination: "/docs/components/form",
-        permanent: false,
-      },
-      {
         source: "/sidebar",
         destination: "/docs/components/sidebar",
         permanent: true,
@@ -68,12 +55,43 @@ const nextConfig = {
         destination: "/docs/react-19",
         permanent: true,
       },
+      {
+        source: "/charts",
+        destination: "/charts/area",
+        permanent: true,
+      },
+      {
+        source: "/view/styles/:style/:name",
+        destination: "/view/:name",
+        permanent: true,
+      },
+      {
+        source: "/docs/:path*.mdx",
+        destination: "/docs/:path*.md",
+        permanent: true,
+      },
+      {
+        source: "/mcp",
+        destination: "/docs/mcp",
+        permanent: false,
+      },
+      {
+        source: "/directory",
+        destination: "/docs/directory",
+        permanent: false,
+      },
+    ]
+  },
+  rewrites() {
+    return [
+      {
+        source: "/docs/:path*.md",
+        destination: "/llm/:path*",
+      },
     ]
   },
 }
 
-const withContentlayer = createContentlayerPlugin({
-  // Additional Contentlayer config options
-})
+const withMDX = createMDX({})
 
-export default withContentlayer(nextConfig)
+export default withMDX(nextConfig)

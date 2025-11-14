@@ -1,4 +1,4 @@
-import { existsSync, promises as fs } from "fs"
+import { existsSync } from "fs"
 import path from "path"
 import puppeteer from "puppeteer"
 
@@ -15,11 +15,11 @@ async function captureScreenshots() {
     // Check if screenshots already exist
     const lightPath = path.join(
       REGISTRY_PATH,
-      `styles/new-york/${block}-light.png`
+      `styles/new-york-v4/${block}-light.png`
     )
     const darkPath = path.join(
       REGISTRY_PATH,
-      `styles/new-york/${block}-dark.png`
+      `styles/new-york-v4/${block}-dark.png`
     )
     return !existsSync(lightPath) || !existsSync(darkPath)
   })
@@ -38,7 +38,7 @@ async function captureScreenshots() {
   })
 
   for (const block of blocks) {
-    const pageUrl = `http://localhost:3333/view/styles/new-york/${block}`
+    const pageUrl = `http://localhost:4000/view/${block}`
 
     const page = await browser.newPage()
     await page.goto(pageUrl, {
@@ -50,7 +50,7 @@ async function captureScreenshots() {
     for (const theme of ["light", "dark"]) {
       const screenshotPath = path.join(
         REGISTRY_PATH,
-        `styles/new-york/${block}${theme === "dark" ? "-dark" : "-light"}.png`
+        `styles/new-york-v4/${block}${theme === "dark" ? "-dark" : "-light"}.png`
       )
 
       if (existsSync(screenshotPath)) {
